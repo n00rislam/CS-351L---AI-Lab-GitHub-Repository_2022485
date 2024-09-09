@@ -1,0 +1,38 @@
+import random
+import math
+
+def simulated_annealing_number_guessing_game():
+    print("Think of a number between 1 and 100, and I (the AI) will try to guess it using Simulated Annealing.")
+    
+    current_guess = random.randint(1, 100)
+    temperature = 100  # Initial temperature
+    attempts = 0
+    low = 1
+    high = 100
+    
+    while temperature > 1:
+        attempts += 1
+        print(f"AI's guess is: {current_guess}")
+        feedback = input("Enter 'h' if too high, 'l' if too low, or 'c' if correct: ").lower()
+        
+        if feedback == 'c':
+            print(f"I (AI) guessed the number in {attempts} attempts using Simulated Annealing!")
+            return
+        elif feedback == 'h':
+            high = current_guess - 1
+        elif feedback == 'l':
+            low = current_guess + 1
+        
+        # Simulated Annealing adjustment
+        next_guess = random.randint(low, high)
+        delta = abs(next_guess - current_guess)
+        
+        if math.exp(-delta / temperature) > random.random():
+            current_guess = next_guess
+        
+        temperature -= 1  # Decrease temperature
+
+    print("I couldn't guess the number within a reasonable temperature range.")
+
+# Run the Simulated Annealing version
+simulated_annealing_number_guessing_game()
